@@ -1,51 +1,33 @@
-import { config } from "@keystone-next/keystone/schema";
-import { statelessSessions } from "@keystone-next/keystone/session";
+import { config, createSchema } from "@keystone-next/keystone/schema";
 import { createAuth } from "@keystone-next/auth";
-
-import { lists } from "./schema";
+import { User } from "./lists/User";
 
 let sessionSecret = process.env.SESSION_SECRET;
 let db = process.env.DATABASE_URL;
 
-if (!sessionSecret) {
-  if (process.env.NODE_ENV === "production") {
-    throw new Error(
-      "The SESSION_SECRET environment variable must be set in production"
-    );
-  } else {
-    sessionSecret = "-- DEV COOKIE SECRET; CHANGE ME --";
-  }
-}
+const sessionConfig = {
+  maxAge: 60 * 60 * 24 * 100, // stay logged in for 100 days
+  secret: process.env.COOKIE_SECRET,
+};
 
-let sessionMaxAge = 60 * 60 * 24 * 30; // 30 days
-
-const { withAuth } = createAuth({
-  listKey: "User",
-  identityField: "email",
-  secretField: "password",
-  sessionData: "name",
-  initFirstItem: {
-    fields: ["name", "email", "password"],
+export default config({
+  // server: {
+  //   cors: {
+  //     origin: [process.env.FRONTEND_URL],
+  //     credentials: true,
+  //   },
+  // },
+  db: {
+    adapter: "prisma_postgresql",
+    url:
+      db || "postgres://benridesbikes:benridesbikes@localhost:5432/trackstand",
   },
+  lists: createSchema({
+    User,
+  }),
+  ui: {
+    // allow access to every one for now; change this when making roles
+    isAccessAllowed: () => true,
+  },
+  // session is totally coming soon
 });
-
-const session = statelessSessions({
-  maxAge: sessionMaxAge,
-  secret: sessionSecret,
-});
-
-export default withAuth(
-  config({
-    db: {
-      adapter: "prisma_postgresql",
-      url:
-        db ||
-        "postgres://benridesbikes:benridesbikes@localhost:5432/trackstand",
-    },
-    ui: {
-      isAccessAllowed: (context) => !!context.session?.data,
-    },
-    lists,
-    session,
-  })
-);
