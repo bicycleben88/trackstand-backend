@@ -13,5 +13,6 @@ export const User = list({
       isUnique: true,
     }),
     password: password(),
+    bikeRide: relationship({ ref: "BikeRide.user" }),
   },
 });

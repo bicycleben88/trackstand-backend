@@ -8,5 +8,6 @@ export const BikeRide = list({
     miles: integer({ isRequired: true }),
     hours: integer(),
     minutes: integer(),
+    user: relationship({ ref: "User.bikeRide" }),
   },
 });
