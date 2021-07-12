@@ -1,7 +1,8 @@
 import { config, createSchema } from "@keystone-next/keystone/schema";
+import { statelessSessions } from "@keystone-next/keystone/session";
 import { createAuth } from "@keystone-next/auth";
 import { User } from "./lists/User";
-import { statelessSessions } from "@keystone-next/keystone/session";
+import { BikeRide } from "./lists/BikeRide";
 
 let sessionSecret = process.env.SESSION_SECRET;
 let db = process.env.DATABASE_URL;
@@ -31,6 +32,7 @@ export default withAuth(
     },
     lists: createSchema({
       User,
+      BikeRide,
     }),
     ui: {
       // allow access to logged in user

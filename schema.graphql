@@ -109,6 +109,120 @@ input UsersCreateInput {
 }
 
 """
+ A keystone list
+"""
+type BikeRide {
+  id: ID!
+  date: String
+  miles: Int
+  hours: Int
+  minutes: Int
+}
+
+input BikeRideWhereInput {
+  AND: [BikeRideWhereInput!]
+  OR: [BikeRideWhereInput!]
+  id: ID
+  id_not: ID
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  date: String
+  date_not: String
+  date_contains: String
+  date_not_contains: String
+  date_starts_with: String
+  date_not_starts_with: String
+  date_ends_with: String
+  date_not_ends_with: String
+  date_i: String
+  date_not_i: String
+  date_contains_i: String
+  date_not_contains_i: String
+  date_starts_with_i: String
+  date_not_starts_with_i: String
+  date_ends_with_i: String
+  date_not_ends_with_i: String
+  date_in: [String]
+  date_not_in: [String]
+  miles: Int
+  miles_not: Int
+  miles_lt: Int
+  miles_lte: Int
+  miles_gt: Int
+  miles_gte: Int
+  miles_in: [Int]
+  miles_not_in: [Int]
+  hours: Int
+  hours_not: Int
+  hours_lt: Int
+  hours_lte: Int
+  hours_gt: Int
+  hours_gte: Int
+  hours_in: [Int]
+  hours_not_in: [Int]
+  minutes: Int
+  minutes_not: Int
+  minutes_lt: Int
+  minutes_lte: Int
+  minutes_gt: Int
+  minutes_gte: Int
+  minutes_in: [Int]
+  minutes_not_in: [Int]
+}
+
+input BikeRideWhereUniqueInput {
+  id: ID
+}
+
+enum SortBikeRidesBy {
+  id_ASC
+  id_DESC
+  date_ASC
+  date_DESC
+  miles_ASC
+  miles_DESC
+  hours_ASC
+  hours_DESC
+  minutes_ASC
+  minutes_DESC
+}
+
+input BikeRideOrderByInput {
+  id: OrderDirection
+  date: OrderDirection
+  miles: OrderDirection
+  hours: OrderDirection
+  minutes: OrderDirection
+}
+
+input BikeRideUpdateInput {
+  date: String
+  miles: Int
+  hours: Int
+  minutes: Int
+}
+
+input BikeRidesUpdateInput {
+  id: ID!
+  data: BikeRideUpdateInput
+}
+
+input BikeRideCreateInput {
+  date: String
+  miles: Int
+  hours: Int
+  minutes: Int
+}
+
+input BikeRidesCreateInput {
+  data: BikeRideCreateInput
+}
+
+"""
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
 scalar JSON
@@ -150,6 +264,36 @@ type Mutation {
    Delete multiple User items by ID.
   """
   deleteUsers(ids: [ID!]): [User]
+
+  """
+   Create a single BikeRide item.
+  """
+  createBikeRide(data: BikeRideCreateInput): BikeRide
+
+  """
+   Create multiple BikeRide items.
+  """
+  createBikeRides(data: [BikeRidesCreateInput]): [BikeRide]
+
+  """
+   Update a single BikeRide item by ID.
+  """
+  updateBikeRide(id: ID!, data: BikeRideUpdateInput): BikeRide
+
+  """
+   Update multiple BikeRide items by ID.
+  """
+  updateBikeRides(data: [BikeRidesUpdateInput]): [BikeRide]
+
+  """
+   Delete a single BikeRide item by ID.
+  """
+  deleteBikeRide(id: ID!): BikeRide
+
+  """
+   Delete multiple BikeRide items by ID.
+  """
+  deleteBikeRides(ids: [ID!]): [BikeRide]
   authenticateUserWithPassword(
     email: String!
     password: String!
@@ -225,6 +369,41 @@ type Query {
       reason: "This query will be removed in a future version. Please use usersCount instead."
     )
   usersCount(where: UserWhereInput! = {}): Int
+
+  """
+   Search for all BikeRide items which match the where clause.
+  """
+  allBikeRides(
+    where: BikeRideWhereInput! = {}
+    search: String
+    sortBy: [SortBikeRidesBy!]
+      @deprecated(reason: "sortBy has been deprecated in favour of orderBy")
+    orderBy: [BikeRideOrderByInput!]! = []
+    first: Int
+    skip: Int! = 0
+  ): [BikeRide!]
+
+  """
+   Search for the BikeRide item with the matching ID.
+  """
+  BikeRide(where: BikeRideWhereUniqueInput!): BikeRide
+
+  """
+   Perform a meta-query on all BikeRide items which match the where clause.
+  """
+  _allBikeRidesMeta(
+    where: BikeRideWhereInput! = {}
+    search: String
+    sortBy: [SortBikeRidesBy!]
+      @deprecated(reason: "sortBy has been deprecated in favour of orderBy")
+    orderBy: [BikeRideOrderByInput!]! = []
+    first: Int
+    skip: Int! = 0
+  ): _QueryMeta
+    @deprecated(
+      reason: "This query will be removed in a future version. Please use bikeRidesCount instead."
+    )
+  bikeRidesCount(where: BikeRideWhereInput! = {}): Int
   authenticatedItem: AuthenticatedItem
   keystone: KeystoneMeta!
 }

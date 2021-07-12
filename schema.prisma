@@ -14,3 +14,11 @@ model User {
   email    String? @unique
   password String?
 }
+
+model BikeRide {
+  id      String  @id @default(cuid())
+  date    String?
+  miles   Int?
+  hours   Int?
+  minutes Int?
+}
