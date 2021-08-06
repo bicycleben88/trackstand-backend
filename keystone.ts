@@ -3,6 +3,7 @@ import { statelessSessions } from "@keystone-next/keystone/session";
 import { createAuth } from "@keystone-next/auth";
 import { User } from "./lists/User";
 import { BikeRide } from "./lists/BikeRide";
+import { addSeedData } from "./seed-data";
 
 let sessionSecret = process.env.SESSION_SECRET;
 let db = process.env.DATABASE_URL;
@@ -29,6 +30,11 @@ export default withAuth(
       url:
         db ||
         "postgres://benridesbikes:benridesbikes@localhost:5432/trackstand",
+      async onConnect(keystone) {
+        if (process.argv.includes("--seed-data")) {
+          addSeedData(keystone);
+        }
+      },
     },
     lists: createSchema({
       User,
