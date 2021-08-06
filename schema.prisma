@@ -9,11 +9,11 @@ generator client {
 }
 
 model User {
-  id       String    @id @default(cuid())
+  id       String     @id @default(cuid())
   name     String?
-  email    String?   @unique
+  email    String?    @unique
   password String?
-  bikeRide BikeRide? @relation("BikeRide_user")
+  bikeRide BikeRide[] @relation("BikeRide_user")
 }
 
 model BikeRide {
@@ -23,5 +23,7 @@ model BikeRide {
   hours   Int?
   minutes Int?
   user    User?   @relation("BikeRide_user", fields: [userId], references: [id])
-  userId  String? @unique @map("user")
+  userId  String? @map("user")
+
+  @@index([userId])
 }

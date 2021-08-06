@@ -6,11 +6,36 @@ type User {
   name: String
   email: String
   password: PasswordState
-  bikeRide: BikeRide
+  bikeRide(
+    where: BikeRideWhereInput! = {}
+    search: String
+    sortBy: [SortBikeRidesBy!]
+      @deprecated(reason: "sortBy has been deprecated in favour of orderBy")
+    orderBy: [BikeRideOrderByInput!]! = []
+    first: Int
+    skip: Int! = 0
+  ): [BikeRide!]
+  _bikeRideMeta(
+    where: BikeRideWhereInput! = {}
+    search: String
+    sortBy: [SortBikeRidesBy!]
+      @deprecated(reason: "sortBy has been deprecated in favour of orderBy")
+    orderBy: [BikeRideOrderByInput!]! = []
+    first: Int
+    skip: Int! = 0
+  ): _QueryMeta
+    @deprecated(
+      reason: "This query will be removed in a future version. Please use bikeRideCount instead."
+    )
+  bikeRideCount(where: BikeRideWhereInput! = {}): Int
 }
 
 type PasswordState {
   isSet: Boolean!
+}
+
+type _QueryMeta {
+  count: Int
 }
 
 input UserWhereInput {
@@ -61,8 +86,21 @@ input UserWhereInput {
   email_in: [String]
   email_not_in: [String]
   password_is_set: Boolean
-  bikeRide: BikeRideWhereInput
-  bikeRide_is_null: Boolean
+
+  """
+   condition must be true for all nodes
+  """
+  bikeRide_every: BikeRideWhereInput
+
+  """
+   condition must be true for at least 1 node
+  """
+  bikeRide_some: BikeRideWhereInput
+
+  """
+   condition must be false for all nodes
+  """
+  bikeRide_none: BikeRideWhereInput
 }
 
 input UserWhereUniqueInput {
@@ -94,13 +132,13 @@ input UserUpdateInput {
   name: String
   email: String
   password: String
-  bikeRide: BikeRideRelateToOneInput
+  bikeRide: BikeRideRelateToManyInput
 }
 
-input BikeRideRelateToOneInput {
-  create: BikeRideCreateInput
-  connect: BikeRideWhereUniqueInput
-  disconnect: BikeRideWhereUniqueInput
+input BikeRideRelateToManyInput {
+  create: [BikeRideCreateInput]
+  connect: [BikeRideWhereUniqueInput]
+  disconnect: [BikeRideWhereUniqueInput]
   disconnectAll: Boolean
 }
 
@@ -113,7 +151,7 @@ input UserCreateInput {
   name: String
   email: String
   password: String
-  bikeRide: BikeRideRelateToOneInput
+  bikeRide: BikeRideRelateToManyInput
 }
 
 input UsersCreateInput {
@@ -253,10 +291,6 @@ scalar JSON
   @specifiedBy(
     url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf"
   )
-
-type _QueryMeta {
-  count: Int
-}
 
 type Mutation {
   """

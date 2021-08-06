@@ -30,9 +30,9 @@ export default withAuth(
       url:
         db ||
         "postgres://benridesbikes:benridesbikes@localhost:5432/trackstand",
-      async onConnect(keystone) {
+      onConnect: async (keystone) => {
         if (process.argv.includes("--seed-data")) {
-          addSeedData(keystone);
+          await addSeedData(keystone);
         }
       },
     },

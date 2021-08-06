@@ -1,17 +1,14 @@
 import { bikeRides } from "./data";
 export async function addSeedData(ks: any) {
   const keystone = ks.keystone || ks;
-  console.log(keystone.prisma);
+  //   const { lists } = keystone;
 
-  for (let bikeRide of bikeRides) {
-    console.log(bikeRide);
-  }
-  //   const adapter = keystone.adapter?.prisma || keystone.adapter;
+  //   console.log(lists);
+  const { BikeRide } = keystone.lists;
 
-  //   console.log(adapter);
-  //   console.log(`inserting ${bikeRides.length} bike rides!`);
-
-  //   const { prisma } = adapter;
-
-  //   console.log(prisma);
+  BikeRide.createMany({ data: bikeRides });
+  //   console.log(bikeRide);
+  //   for (let ride of bikeRides) {
+  //     bikeRide.create(ride);
+  //   }
 }
