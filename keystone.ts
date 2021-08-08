@@ -19,12 +19,12 @@ const { withAuth } = createAuth({
 
 export default withAuth(
   config({
-    // server: {
-    //   cors: {
-    //     origin: [process.env.FRONTEND_URL],
-    //     credentials: true,
-    //   },
-    // },
+    server: {
+      cors: {
+        origin: "http://localhost:8081/",
+        credentials: false,
+      },
+    },
     db: {
       adapter: "prisma_postgresql",
       url:

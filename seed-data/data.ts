@@ -12,4 +12,20 @@ export const bikeRides = [
       minutes: Math.floor(Math.random() * 60),
     },
   },
+  {
+    data: {
+      date: createDate(),
+      miles: Math.floor(Math.random() * 100),
+      hours: Math.floor(Math.random() * 5),
+      minutes: Math.floor(Math.random() * 60),
+    },
+  },
+  {
+    data: {
+      date: createDate(),
+      miles: Math.floor(Math.random() * 100),
+      hours: Math.floor(Math.random() * 5),
+      minutes: Math.floor(Math.random() * 60),
+    },
+  },
 ];
