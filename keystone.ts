@@ -1,6 +1,7 @@
 import { config, createSchema } from "@keystone-next/keystone/schema";
 import { statelessSessions } from "@keystone-next/keystone/session";
 import { createAuth } from "@keystone-next/auth";
+import { extendGraphqlSchema } from "@keystone-next/types";
 import { User } from "./lists/User";
 import { BikeRide } from "./lists/BikeRide";
 import { addSeedData } from "./seed-data";
@@ -51,5 +52,6 @@ export default withAuth(
       secret:
         sessionSecret || "something_else12345678900987987676854213asdfjgkjhg",
     }),
+    extendGraphqlSchema,
   })
 );
