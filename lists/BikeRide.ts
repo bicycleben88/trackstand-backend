@@ -1,7 +1,20 @@
 import { integer, relationship, text } from "@keystone-next/fields";
 import { list } from "@keystone-next/keystone/schema";
 
-const isSignedIn = ({ session }) => !!session;
+interface Session {
+  itemId: string;
+  listKey: string;
+  data: {
+    name: string;
+  };
+}
+
+interface AccessArguments {
+  itemId?: string;
+  session?: Session;
+}
+
+const isSignedIn = ({ session }: AccessArguments) => !!session;
 
 export const BikeRide = list({
   access: {
